@@ -1,0 +1,4 @@
+* {
+    color: #fff;
+}
+div#app {border: none; overflow: hidden; color: #fff; background-color: #333; height: 100%;}

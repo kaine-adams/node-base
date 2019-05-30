@@ -1,0 +1,12 @@
+block content
+    if !user
+        p
+            a(href='/login') Please Login
+    else
+        p Welcome #{user.username}
+
+        p Change Name:
+            input(id="username")
+            button(id="update_username")
+        script(src='/socket.io/socket.io.js')
+        script(src='/javascripts/game.js')

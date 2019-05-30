@@ -1,0 +1,11 @@
+block content
+    include /mixins/form.pug
+    if message != null
+        p.warning #{message}
+        
+    form(method='post' action='/login' class="form-horizontal")
+        +formCsrf(csrfToken)
+        h5 Login
+        +formInput('Username', 'username', 'text', 'Username')
+        +formInput('Password', 'password', 'password', 'Enter Password')
+        +formSubmit('Login')
