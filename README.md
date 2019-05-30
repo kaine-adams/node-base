@@ -1,9 +1,9 @@
-<<<<<<< HEAD
 # Node Application Starting Point
 
 A basic node application base, originally designed for kongregate and self hosted authentication.
 
 Uses:
+
     - Docker: preconfigured enviroments
     - Passport: Authentication
     - Pug: Template Engine
@@ -13,22 +13,21 @@ Uses:
 
 Licenced under MIT.
 
-"author": "Kaine S. Adams",
-"email": "pirionxii@gmail.com",
-"url": "https://www.pirion.net/"
+**author:** Kaine S. Adams,
+**email:** pirionxii@gmail.com,
+**url:** https://www.pirion.net/
 
 ## How to Use:
 
 Run Database:
-- docker-compose up database -d
+
+    - `docker-compose up database -d`
 
 Build, Run Webpack, Migrate Database, and Start Server: 
-- docker-compose build web
-- docker-compose up web
+
+    - `docker-compose build web`
+    - `docker-compose up web`
 
 Dispose Enviroment:
-- docker-compose down
 
-=======
-# node-base
->>>>>>> 037640d48fe5bd59d0f2120c71f4608800f4dc7a
+    - `docker-compose down`
