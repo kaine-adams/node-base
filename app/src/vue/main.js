@@ -21,9 +21,6 @@ const router = new VueRouter({
   mode: 'abstract'
 })
 
-console.log("Printing VueStore Value:");
-console.log(VueStore);
-
 new Vue({
   el: '#app',
   store: VueStore,
