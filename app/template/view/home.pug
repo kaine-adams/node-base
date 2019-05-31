@@ -1,6 +1,5 @@
 block content
     if !user
-<<<<<<< HEAD
         div
             a(href='/login') Login
         div
@@ -9,15 +8,3 @@ block content
         div Welcome #{user.username}
         div 
             a(href='/game') Proceed to Game
-=======
-        p
-            a(href='/login') Please Login
-    else
-        p Welcome #{user.username}
-
-        p Change Name:
-            input(id="username")
-            button(id="update_username")
-        script(src='/socket.io/socket.io.js')
-        script(src='/javascripts/game.js')
->>>>>>> 7ae5cb5beb212c02edb5009ca5433f872438e46f
