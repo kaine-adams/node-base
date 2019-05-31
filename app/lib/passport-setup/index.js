@@ -44,7 +44,7 @@ function initializePassport(options) {
     });
 
     passport.deserializeUser(function (id, callback) {
-        Account.findAccountById(id)
+        Account.FindById(id)
             .then(account => {
                 callback(null, account);
             });
@@ -72,23 +72,50 @@ function initializePassport(options) {
         })
     );
     
+    passport.use('register',new LocalStrategy({
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback: true
+        },
+        function (req, username, password, callback) {
+            Account.Register(username, password, req.body.confirm, req.body.email)
+                .then(result => {
+                    if(!result) {
+                        callback(null, null, {message: "There was an error while processing the request. Try again later."});
+                    }
+                    if(result.success) {
+                        callback(null, result.account);
+                    }
+                    else {
+                        callback(null, null, {message: result.message});
+                    }
+                })
+                .catch(error => {
+                    callback(error, null, {message: "There was an error while processing the request. Try again later."});
+                });
+        })
+    );
+    
     passport.use('login',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
         passReqToCallback: true
         },
         function (req, username, password, callback) {
-            Account.authenticate(username, password)
-                .then(account => {
-                    if(!account) {
-                        callback(null, null, {message: 'Invalid username/password combination.'});
+            Account.Authenticate(username, password)
+                .then(result => {
+                    if(!result) {
+                        callback(null, null, {message: "There was an error while processing the request. Try again later."});
+                    }
+                    if(result.success) {
+                        callback(null, result.account);
                     }
                     else {
-                        callback(null, account);
+                        callback(null, null, {message: result.message});
                     }
                 })
                 .catch(error => {
-                    callback(error, null, {message: 'There was a problem with your request. Please try again or contact Support.'});
+                    callback(error, null, {message: "There was an error while processing the request. Try again later."});
                 });
         })
     );

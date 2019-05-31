@@ -2,76 +2,91 @@ const config = require('config');
 const bcrypt = require('bcrypt');
 const knex = require('knex-connection');
 
-/**
-* Creates a new account record in the database.
-* @namespace Data.Account
-* @method create
-* @param {String} username Account name used to authenticate.
-* @param {String} password Password used to authenticate.
-* @param {String} email Email address for validation.
-* @return {JSON|null} Record created, or NULL if it failed.
-*/
-async function create(username, password, email) {
-    try {
-        let passhash = await bcrypt.hash(password, config.bcrypt.factor);
-        let result = await knex('accounts').insert({username, password: passhash, email});
-        let account = await knex('accounts').where('id', result);
-        return account[0];
-    }
-    catch(error) {
-        return null;
-    }
+async function GetAccount(params) {
+    let result = await knex('accounts').where(params).first();
+    return result;
 }
 
-/**
-* Gets any account that match the specified username and password.
-* @namespace Data.Account
-* @method authenticate
-* @param {String} username Account name used to authenticate.
-* @param {String} password Password used to authenticate.
-* @return {JSON|null} Record loaded, or NULL if it failed.
-*/
-async function authenticate(username, password) {
+async function CountAccount(params) {
+    let result = await knex('accounts').count('id as count').where(params).first();
+    return result.count;
+}
+
+async function CreateHash(password) {
+    return bcrypt.hash(password, config.bcrypt.factor);
+}
+
+
+async function CreateAccount(account) {
+    let id = await knex('accounts').insert(account);
+    return id;
+}
+
+async function Register(username, password, confirm, email) {
+    let result = {
+        success: false,
+        message: '',
+        account: null
+    };
+
+    let account = {
+        username: username,
+        password: null,
+        email: email
+    };
+
     try {
-        let account = await knex('accounts').where('username', username);
-        let is_match = await bcrypt.compare(password, account[0].password);
-        if(is_match) {
-            return account[0];
+        if(password != confirm) {
+            result.message = 'Password Confirm does not match password.';
         }
-        return null;
+        else {
+            let count = await CountAccount({username: account.username});
+            if(count >= 1) {
+                result.message = "Username already exists."
+            }
+            else {
+                account.password = await CreateHash(password)
+                let newid = await CreateAccount(account);
+                result.account = await GetAccount({id: newid});
+                result.success = true;
+            }
+        }
     }
     catch(error) {
-        return null;
+        console.log("Error occured during register:", error);
+        result.message = 'An error has occured while processing the request.';
     }
+
+    return result;
 }
 
-/**
-* Gets any account that match the specified username and password.
-* @namespace Data.Account
-* @method findAccountById
-* @param {Number} id id field for the account.
-* @return {JSON|null} Record loaded, or NULL if it failed.
-*/
-async function findAccountById(id) {
+async function Authenticate(username, password) {
+    let result = {
+        success: false,
+        message: 'Invalid username or Password.',
+        account: null
+    };
+    
     try {
-        let account = await knex('accounts').where('id', id);
-        return account[0];
+        result.account = await GetAccount({username: username});
+        if(result.account != null) {
+            result.success = await bcrypt.compare(password, result.account.password);
+            if(!result.success) {
+                result.account = null;
+            }
+        }
     }
     catch(error) {
-        return null;
+        result.message = 'An error has occured while processing the request.';
     }
+
+    return result;
 }
 
-/**
-* Gets any account that match the specified username and password.
-* @namespace Data.Account
-* @method findAccountById
-* @param {Number} id id field for the account.
-* @return {JSON|null} Record loaded, or NULL if it failed.
-*/
-async function updateName(id, username) {
+async function FindById(id) {
     try {
-        let account = await knex('accounts').update('username', username).where('id', id);
+        let account = await GetAccount({id: id});
+        return account;
     }
     catch(error) {
         return null;
@@ -79,8 +94,7 @@ async function updateName(id, username) {
 }
 
 module.exports = {
-    create,
-    authenticate,
-    findAccountById,
-    updateName,
+    Authenticate,
+    Register,
+    FindById,
 }

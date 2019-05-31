@@ -3,9 +3,11 @@ block content
     if message != null
         p.warning #{message}
         
-    form(method='post' action='/login' class="form-horizontal")
+    form(method='post' action='/register' class="form-horizontal")
         +formCsrf(csrfToken)
-        h5 Login
+        h5 Register
         +formInput('Username', 'username', 'text', 'Username')
         +formInput('Password', 'password', 'password', 'Enter Password')
-        +formSubmit('Login')
+        +formInput('Password Confirm', 'confirm', 'password', 'Confirm Password')
+        +formInput('Email', 'email', 'text', 'Email Address')
+        +formSubmit('Register')

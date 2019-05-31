@@ -1,12 +1,10 @@
 block content
     if !user
-        p
-            a(href='/login') Please Login
+        div
+            a(href='/login') Login
+        div
+            a(href='/register') New User
     else
-        p Welcome #{user.username}
-
-        p Change Name:
-            input(id="username")
-            button(id="update_username")
-        script(src='/socket.io/socket.io.js')
-        script(src='/javascripts/game.js')
+        div Welcome #{user.username}
+        div 
+            a(href='/game') Proceed to Game

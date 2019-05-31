@@ -1,12 +1,17 @@
 <template>
   <div id="app">
-    <button @click="decrement">-</button>
-    <p>{{counter}}</p>
-    <button @click="increment">+</button>
+    <div><a href="/logout">Logout</a></div>
+    <div>
+      <button @click="decrement">-</button>
+      <p>{{counter}}</p>
+      <button @click="increment">+</button>
+    </div>
     
-    <router-link v-bind:to="'/'">Home</router-link>
-    <router-link v-bind:to="'/About'">About</router-link>
-    <router-view></router-view>
+    <div>
+      <router-link v-bind:to="'/'">Home</router-link>
+      <router-link v-bind:to="'/About'">About</router-link>
+      <router-view></router-view>
+    </div>
   </div>
 </template> 
 
