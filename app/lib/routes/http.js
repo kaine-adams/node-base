@@ -94,7 +94,11 @@ module.exports = function(app) {
      *************************************************/
 
     //any endpoints defined under this line will require authentication on them.
+<<<<<<< HEAD
     app.use(passport.requireAuthenticationMiddleware({ redirectTo: '/'}));
+=======
+    app.use(passport.requireAuthenticationMiddleware({ redirectTo: '/login'}));
+>>>>>>> 7ae5cb5beb212c02edb5009ca5433f872438e46f
 
     app.get('/game',
     function(req, res){

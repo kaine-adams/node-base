@@ -44,7 +44,11 @@ function initializePassport(options) {
     });
 
     passport.deserializeUser(function (id, callback) {
+<<<<<<< HEAD
         Account.FindById(id)
+=======
+        Account.findAccountById(id)
+>>>>>>> 7ae5cb5beb212c02edb5009ca5433f872438e46f
             .then(account => {
                 callback(null, account);
             });
@@ -72,6 +76,7 @@ function initializePassport(options) {
         })
     );
     
+<<<<<<< HEAD
     passport.use('register',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
@@ -96,12 +101,15 @@ function initializePassport(options) {
         })
     );
     
+=======
+>>>>>>> 7ae5cb5beb212c02edb5009ca5433f872438e46f
     passport.use('login',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
         passReqToCallback: true
         },
         function (req, username, password, callback) {
+<<<<<<< HEAD
             Account.Authenticate(username, password)
                 .then(result => {
                     if(!result) {
@@ -116,6 +124,19 @@ function initializePassport(options) {
                 })
                 .catch(error => {
                     callback(error, null, {message: "There was an error while processing the request. Try again later."});
+=======
+            Account.authenticate(username, password)
+                .then(account => {
+                    if(!account) {
+                        callback(null, null, {message: 'Invalid username/password combination.'});
+                    }
+                    else {
+                        callback(null, account);
+                    }
+                })
+                .catch(error => {
+                    callback(error, null, {message: 'There was a problem with your request. Please try again or contact Support.'});
+>>>>>>> 7ae5cb5beb212c02edb5009ca5433f872438e46f
                 });
         })
     );

@@ -94,7 +94,14 @@ async function FindById(id) {
 }
 
 module.exports = {
+<<<<<<< HEAD
     Authenticate,
     Register,
     FindById,
+=======
+    create,
+    authenticate,
+    findAccountById,
+    updateName,
+>>>>>>> 7ae5cb5beb212c02edb5009ca5433f872438e46f
 }
