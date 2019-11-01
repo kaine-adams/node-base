@@ -36,7 +36,7 @@
     "express-session": "1.15.6",
     "file-loader": "^3.0.1",
     "helmet": "3.12.1",
-    "knex": "^0.15.2",
+    "knex": "^0.20.0",
     "mariadb": "0.0.2-security",
     "mini-css-extract-plugin": "^0.7.0",
     "mysql": "^2.16.0",
